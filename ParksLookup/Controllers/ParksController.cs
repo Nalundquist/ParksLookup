@@ -8,7 +8,10 @@ using System;
 
 namespace ParksLookup.Controllers
 {
-	[route("api/[controller]")]
+	[Route("api/[controller]")]
 	[ApiController]
 	public class ParksController : ControllerBase 
+	{
+
+	}
 }
