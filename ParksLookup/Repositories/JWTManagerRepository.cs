@@ -14,7 +14,7 @@ namespace ParksLookup.Repositories
 {
 	public class JWTManagerRepository : IJWTManagerRepository
 	{
-		Dictionary<string, string> Users = new Dictionary<string, string>
+		Dictionary<string, string> UsersDict = new Dictionary<string, string>
 		{
 			{"user1", "pass123"}
 		};
@@ -28,7 +28,7 @@ namespace ParksLookup.Repositories
 
 		public Tokens Authenticate (User user)
 		{
-			if (!Users.Any(u => u.Key == user.Name && u.Value == user.Password))
+			if (!UsersDict.Any(u => u.Key == user.Name && u.Value == user.Password))
 			{
 				return null;
 			}

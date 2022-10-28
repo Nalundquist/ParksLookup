@@ -11,6 +11,8 @@ namespace ParksLookup.Models
 		}
 
 		public DbSet<Park> Parks {get; set;}
+		public DbSet<User> Users {get; set;}
+		public DbSet<Tokens> Tokens {get; set;}
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
