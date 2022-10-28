@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ParksLookup.Models;
+using ParksLookup.Repositories;
 
 namespace ParksLookup.Controllers
 {
@@ -15,10 +17,26 @@ namespace ParksLookup.Controllers
 	public class ParksController : ControllerBase 
 	{
 		private readonly ParksLookupContext _db;
+		private readonly IJWTManagerRepository _jWTManager;
 
-		public ParksController(ParksLookupContext db)
+		public ParksController(ParksLookupContext db, IJWTManagerRepository jWTManager)
 		{
 			_db = db;
+			_jWTManager = jWTManager;
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		[Route("auth")]
+		public IActionResult Auth(User userAuth)
+		{
+			var token = _jWTManager.Authenticate(userAuth);
+			if (token == null)
+			{
+				return Unauthorized();
+			}
+			
+			return Ok(token);
 		}
 
 		[HttpGet] 
