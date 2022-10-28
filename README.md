@@ -46,27 +46,27 @@ followed by
 
 		>dotnet build
 
-*After this, create an appsettings.json file in the root /ParksLookup folder (sub in your own set username and password for the bracketed bits)
+* After this, create an appsettings.json file in the root /ParksLookup folder (sub in your own set username and password for the bracketed bits)
 
 ```		
-		{
-			"Logging": {
-				"LogLevel": {
-					"Default": "Warning",
-					"System": "Information",
-					"Microsoft": "Information"
-				}
-			},
-			"AllowedHosts": "*",
-			"JWT": {
-				"Key": "kshioahfhdoihfidohishf",
-				"Issuer": "a",
-				"Audience": "a"
-			},
-			"ConnectionStrings": {
-				"DefaultConnection": "Server=localhost;Port=3306;database=parkslookup;uid=root;pwd=epicodus;"
-			}
+{
+	"Logging": {
+		"LogLevel": {
+			"Default": "Warning",
+			"System": "Information",
+			"Microsoft": "Information"
 		}
+	},
+	"AllowedHosts": "*",
+	"JWT": {
+		"Key": "kshioahfhdoihfidohishf",
+		"Issuer": "a",
+		"Audience": "a"
+	},
+	"ConnectionStrings": {
+		"DefaultConnection": "Server=localhost;Port=3306;database=parkslookup;uid=root;pwd=epicodus;"
+	}
+}
 ```
 note that the Key, Issuer, and Audience fields can have any value in quotes *BUT* the value in Key must be over 16 characters (or 128 bits).
 
@@ -101,9 +101,51 @@ and press the blue button on the right of your screen to Send it.  The body of t
     "refreshToken": null
 }
 ```
-Hold on the the value represented by {BEARER-TOKEN-HERE}.  
+Hold on to the value represented by {BEARER-TOKEN-HERE}.  
 
-In all of our API calls after this one your will need to authorize using this token.  In the "Auth" or "Authorize" tab under any call specify a "Type" of "Bearer Token" and then paste your bearer token from the Auth Route into the "Token" field to the right.  This is necessary for each API call other than Auth.
+In all of our API calls after this one your will need to authorize using this token.  In the "Auth" or "Authorize" tab under any call specify a "Type" of "Bearer Token" and then paste your bearer token from the Auth Route into the "Token" field to the right.  *This is necessary for each API call going forward.*
+
+#### Get
+
+Pulls a list of all Parks in the database.  Make a GET request to `http://localhost:5000/api/parks` and all parks currently posted will be output in JSON. You can specify either National or State parks by appending `?natlOrState={EITHER-ONE}` to the URL.  For example, to get only national parks the url would read `http://localhost:5000/api/parks?natlOrState=national` 
+
+#### Post
+
+Posts a new Park to the database.  Make a POST request to `http://localhost:5000/api/parks` and paste Park information into the "Body" tab of the call in the following format:
+
+```
+{
+	"name": "{YOUR-PARK-NAME}",
+	"description": "{TEXT-ABOUT-PARK}",
+	"natlOrState": "{EITHER-ONE}"
+}
+```
+
+If you make another request of the Get route you will see your Park posted in the Parks list.
+
+#### GetPark
+
+Gets a specific park and displays its details.  Make a GET request to `http://localhost:5000/api/parks/{PARK-ID}` with your desired park's ID in the curly-bracketed field.  
+
+#### Put
+
+Edits the values of the fields in a Park.  Make a PUT request to `http://localhost:5000/api/parks/{PARK-ID}` with the `ParkId` of the park you are revising in the curly-bracketed field.  From there you can use the template from the Post Route to modify the Park information.  Note that in addition you must pass through the `ParkId` in addition to the other fields.  For example, if you wanted to edit the `name` and `natlOrState` values of a park with a `ParkId` of `13` you would make a PUT request to `http://localhost:5000/api/parks/13` with the following JSON code in the body:
+
+
+```
+{
+	"parkId": 13,
+	"name": "{YOUR-PARK-NAME}",
+	"natlOrState": "{EITHER-ONE}"
+}
+```
+
+The `Name` and `NatlOrState` fields of the park at `ParkId = 13` would be modified while the previous value of `Description` would remain.
+
+#### Delete
+
+Deletes the Park entry at a specified `ParkId`.   Make a DELETE request to `http://localhost:5000/api/parks/{PARK-ID}` with the `ParkId` of the park you are removing in the curly-bracketed field.
+
 
 ## Known Bugs
 
